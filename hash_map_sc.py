@@ -153,7 +153,7 @@ class HashMap:
             self._capacity = self._next_prime(new_capacity)
 
         # fill in the new hashmap with empty linked lists
-        for _ in range(self._capacity):
+        for _ in range(original_map.length(), self._capacity):
             self._buckets.append(LinkedList())
 
         for index in range(original_map.length()):
