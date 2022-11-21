@@ -192,7 +192,7 @@ class HashMap:
 
         if self.contains_key(key):
             self._buckets[index].remove(key)
-
+            self._size -= 1
     def get_keys_and_values(self) -> DynamicArray:
         """
         TODO: Write this implementation
