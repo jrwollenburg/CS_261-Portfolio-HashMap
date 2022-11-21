@@ -140,6 +140,7 @@ class HashMap:
             return
         # save original map and capacity
         original_map = DynamicArray()
+
         for i in range(self._buckets.length()):
             original_map.append(self._buckets[i])
         start = self._capacity
@@ -193,12 +194,18 @@ class HashMap:
         if self.contains_key(key):
             self._buckets[index].remove(key)
             self._size -= 1
+
     def get_keys_and_values(self) -> DynamicArray:
         """
         TODO: Write this implementation
         """
-        pass
+        results = DynamicArray()
 
+        for index in range(self._buckets.length()):
+            if self._buckets[index].length() > 0:
+                for node in self._buckets[index]:
+                    results.append((node.key, node.value))
+        return results
 
 def find_mode(da: DynamicArray) -> (DynamicArray, int):
     """
