@@ -144,7 +144,7 @@ class HashMap:
             original_map.append(self._buckets[i])
 
         # reset the current map (for rehashing)
-        self.clear()
+        self._buckets = DynamicArray()
 
         # get the new capacity then update
         if self._is_prime(new_capacity):
@@ -153,7 +153,7 @@ class HashMap:
             self._capacity = self._next_prime(new_capacity)
 
         # fill in the new hashmap with empty linked lists
-        for _ in range(original_map.length(), self._capacity):
+        for _ in range(self._capacity):
             self._buckets.append(LinkedList())
 
         for index in range(original_map.length()):
