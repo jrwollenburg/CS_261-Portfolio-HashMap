@@ -159,7 +159,7 @@ class HashMap:
 
         for index in range(original_map.length()):
             llist = original_map[index]
-            if llist.length != 0:
+            if llist.length() != 0:
                 for node in llist:
                     self.put(node.key, node.value)
 
