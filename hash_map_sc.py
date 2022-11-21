@@ -145,7 +145,7 @@ class HashMap:
 
         # reset the current map (for rehashing)
         self._buckets = DynamicArray()
-
+        self._size = 0
         # get the new capacity then update
         if self._is_prime(new_capacity):
             self._capacity = new_capacity
