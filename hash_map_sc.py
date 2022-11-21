@@ -165,13 +165,24 @@ class HashMap:
         """
         TODO: Write this implementation
         """
-        pass
+        if not self.contains_key(key):
+            return
+        else:
+            index = self._hash_function(key) % self._capacity
+            for node in self._buckets[index]:
+                if node.key == key:
+                    return node.value
+                node.next
 
     def contains_key(self, key: str) -> bool:
         """
         TODO: Write this implementation
         """
-        pass
+        index = self._hash_function(key) % self._capacity
+
+        if self._buckets[index].contains(key):
+            return True
+        return False
 
     def remove(self, key: str) -> None:
         """
