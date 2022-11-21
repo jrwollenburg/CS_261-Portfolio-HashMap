@@ -146,6 +146,7 @@ class HashMap:
         # reset the current map (for rehashing)
         self._buckets = DynamicArray()
         self._size = 0
+
         # get the new capacity then update
         if self._is_prime(new_capacity):
             self._capacity = new_capacity
@@ -211,10 +212,27 @@ def find_mode(da: DynamicArray) -> (DynamicArray, int):
     """
     TODO: Write this implementation
     """
-    # if you'd like to use a hash map,
-    # use this instance of your Separate Chaining HashMap
+    # map passed values to a hash map O(n)
     map = HashMap()
+    results = DynamicArray()
+    map.resize_table(da.length())
+    for index in range(da.length()):
+        if not map.contains_key(da[index]):
+            map.put(da[index], 1)
+        else:
+            map.put(da[index], map.get(da[index]) + 1)
+    # extract all the nodes from the hash map and establish the maximum frequency O(n)
+    map_data = map.get_keys_and_values()
+    max_freq = 1
+    for index in range(map_data.length()):
+        if map_data[index][1] > max_freq:
+            max_freq = map_data[index][1]
+    # append all the elements that occurred at the maximum frequency O(n)
+    for index in range(map_data.length()):
+        if map_data[index][1] == max_freq:
+            results.append(map_data[index][0])
 
+    return results, max_freq
 
 # ------------------- BASIC TESTING ---------------------------------------- #
 
