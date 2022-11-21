@@ -188,7 +188,10 @@ class HashMap:
         """
         TODO: Write this implementation
         """
-        pass
+        index = self._hash_function(key) % self._capacity
+
+        if self.contains_key(key):
+            self._buckets[index].remove(key)
 
     def get_keys_and_values(self) -> DynamicArray:
         """
