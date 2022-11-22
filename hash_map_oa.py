@@ -105,7 +105,11 @@ class HashMap:
         """
         TODO: Write this implementation
         """
-        pass
+        total = 0
+        for value in self:
+            if value is None:
+                total += 1
+        return total
 
     def resize_table(self, new_capacity: int) -> None:
         """
@@ -135,7 +139,11 @@ class HashMap:
         """
         TODO: Write this implementation
         """
-        pass
+        total = 0
+        for index in self._buckets:
+            if self._buckets[index] is None:
+                total += 1
+        return total
 
     def get_keys_and_values(self) -> DynamicArray:
         """
@@ -157,17 +165,12 @@ class HashMap:
         """
         try:
             value = self._buckets[self._index]
-            if value is None:
-                while value is None:
-                    self._index += 1
-                    value = self._buckets[self._index]
+
         except DynamicArrayException:
             raise StopIteration
 
         self._index += 1
         return value
-
-
 
 
 # ------------------- BASIC TESTING ---------------------------------------- #
