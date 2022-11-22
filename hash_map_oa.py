@@ -1,9 +1,10 @@
-# Name:
-# OSU Email:
+# Name: James Wollenburg
+# OSU Email: wollenbj@oregonstate.edu
 # Course: CS261 - Data Structures
-# Assignment:
-# Due Date:
-# Description:
+# Assignment: Assignment 6: HashMap (Portfolio Assignment)
+# Due Date: 12/2/2022
+# Description: Python implementation of an open addressing hashmap with quadratic probing. Hash functions
+#              are found in a6_include.py.
 
 from a6_include import (DynamicArray, DynamicArrayException, HashEntry,
                         hash_function_1, hash_function_2)
@@ -89,13 +90,16 @@ class HashMap:
         """
         TODO: Write this implementation
         """
-        pass
+        if self.table_load() >= 0.5:
+            self.resize_table(self._capacity * 2)
 
     def table_load(self) -> float:
         """
-        TODO: Write this implementation
+        Returns the current table load factor.
+
+        :return: A float representing the load factor.
         """
-        pass
+        return self._size / self._capacity
 
     def empty_buckets(self) -> int:
         """
@@ -143,13 +147,27 @@ class HashMap:
         """
         TODO: Write this implementation
         """
-        pass
+        self._index = 0
+
+        return self
 
     def __next__(self):
         """
         TODO: Write this implementation
         """
-        pass
+        try:
+            value = self._buckets[self._index]
+            if value is None:
+                while value is None:
+                    self._index += 1
+                    value = self._buckets[self._index]
+        except DynamicArrayException:
+            raise StopIteration
+
+        self._index += 1
+        return value
+
+
 
 
 # ------------------- BASIC TESTING ---------------------------------------- #

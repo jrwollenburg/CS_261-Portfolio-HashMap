@@ -3,7 +3,7 @@
 # Course: CS261 - Data Structures
 # Assignment: Assignment 6: HashMap (Portfolio Assignment)
 # Due Date: 12/2/2022
-# Description: Implementation of a separate chaining hashmap. Hash functions are found in a6_include.py.
+# Description: Python implementation of a separate chaining hashmap. Hash functions are found in a6_include.py.
 
 
 from a6_include import (DynamicArray, LinkedList,
