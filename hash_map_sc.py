@@ -1,9 +1,9 @@
-# Name:
-# OSU Email:
+# Name: James Wollenburg
+# OSU Email: wollenbj@oregonstate.edu
 # Course: CS261 - Data Structures
-# Assignment:
-# Due Date:
-# Description:
+# Assignment: Assignment 6: HashMap (Portfolio Assignment)
+# Due Date: 12/2/2022
+# Description: Implementation of a separate chaining hashmap. Hash functions are found in a6_include.py.
 
 
 from a6_include import (DynamicArray, LinkedList,
@@ -90,14 +90,17 @@ class HashMap:
 
     def put(self, key: str, value: object) -> None:
         """
-        TODO: Write this implementation
+        Adds a key/value pair into the hash map. If a key already exists in the hash map, the value is updated.
+        Resizes the hash map if the load factor is >= 1.
+
+        :param key: A string that is hashed and is the key for a value.
+        :param value: Any object that will represent the value in the key/value pair.
         """
         # doubles the capacity and add the empty linked lists
         if self.table_load() >= 1.0:
             self.resize_table(self._capacity*2)
-
+        # inserts a key if it's not already in the hash map
         index = self._hash_function(key) % self._capacity
-
         if not self._buckets[index].contains(key):
             self._buckets[index].insert(key, value)
             self._size += 1
@@ -110,7 +113,9 @@ class HashMap:
 
     def empty_buckets(self) -> int:
         """
-        TODO: Write this implementation
+        Returns a count of the empty buckets in the hash map.
+
+        :return: An integer representing the count.
         """
         total = 0
         for index in range(self._capacity):
@@ -120,13 +125,15 @@ class HashMap:
 
     def table_load(self) -> float:
         """
-        TODO: Write this implementation
+        Returns the current table load factor.
+
+        :return: A float representing the load factor.
         """
         return self._size / self._capacity
 
     def clear(self) -> None:
         """
-        TODO: Write this implementation
+        Clears the hash map of all values but does not alter the capacity.
         """
         for index in range(self._buckets.length()):
             self._buckets[index] = LinkedList()
@@ -134,29 +141,28 @@ class HashMap:
 
     def resize_table(self, new_capacity: int) -> None:
         """
-        TODO: Write this implementation
+        Resizes the hash map capacity to the passed value.
+
+        :param new_capacity: An integer for the new capacity of the table.
         """
         if new_capacity < 1:
             return
         # save original map and capacity
         original_map = DynamicArray()
-        for i in range(self._buckets.length()):
-            original_map.append(self._buckets[i])
-
+        for index in range(self._buckets.length()):
+            original_map.append(self._buckets[index])
         # reset the current map (for rehashing)
         self._buckets = DynamicArray()
         self._size = 0
-
         # get the new capacity then update
         if self._is_prime(new_capacity):
             self._capacity = new_capacity
         else:
             self._capacity = self._next_prime(new_capacity)
-
         # fill in the new hashmap with empty linked lists
         for _ in range(self._capacity):
             self._buckets.append(LinkedList())
-
+        # populate the new hash map with the original values (now rehashed)
         for index in range(original_map.length()):
             llist = original_map[index]
             if llist.length() != 0:
@@ -165,8 +171,11 @@ class HashMap:
 
     def get(self, key: str):
         """
-        TODO: Write this implementation
+        Returns the value associated with the passed key.
+
+        :param key: The string for a key to search for
         """
+        # exit if that key isn't found
         if not self.contains_key(key):
             return
         else:
@@ -178,30 +187,36 @@ class HashMap:
 
     def contains_key(self, key: str) -> bool:
         """
-        TODO: Write this implementation
+        Check if the hash map contains a key.
+
+        :param key: The key to search for.
+
+        :return: True if found, false if not.
         """
         index = self._hash_function(key) % self._capacity
-
         if self._buckets[index].contains(key):
             return True
         return False
 
     def remove(self, key: str) -> None:
         """
-        TODO: Write this implementation
+        Remove a key/value pair from the hash map.
+
+        :param key: The key of the key/value pair to remove.
         """
         index = self._hash_function(key) % self._capacity
-
         if self.contains_key(key):
             self._buckets[index].remove(key)
             self._size -= 1
 
     def get_keys_and_values(self) -> DynamicArray:
         """
-        TODO: Write this implementation
-        """
-        results = DynamicArray()
+        Gets all the key/value pairs in the hash map.
 
+        :return: A dynamic array where each index contains a tuple for each key/value pair (key, value).
+        """
+        # go through each node and add the key/values to the results array.
+        results = DynamicArray()
         for index in range(self._buckets.length()):
             if self._buckets[index].length() > 0:
                 for node in self._buckets[index]:
@@ -210,7 +225,12 @@ class HashMap:
 
 def find_mode(da: DynamicArray) -> (DynamicArray, int):
     """
-    TODO: Write this implementation
+    Finds the mode(s) and frequency of a dynamic array.
+
+    :param da: A dynamic array to find the mode in.
+
+    :return: A tuple containing a dynamic array listing all elements that occurred at the mode frequency and the
+    integer frequency that they occurred. (dynamic array, frequency).
     """
     # map passed values to a hash map O(n)
     map = HashMap()
