@@ -133,7 +133,7 @@ class HashMap:
 
     def clear(self) -> None:
         """
-        Clears the hash map of all values but does not alter the capacity.
+        Clears the hash map of all values but does not alter the capacity. Replaces the data with new empty LinkedLists.
         """
         for index in range(self._buckets.length()):
             self._buckets[index] = LinkedList()
@@ -141,7 +141,7 @@ class HashMap:
 
     def resize_table(self, new_capacity: int) -> None:
         """
-        Resizes the hash map capacity to the passed value.
+        Resizes the hash map capacity to the passed value. Rehashes existing values
 
         :param new_capacity: An integer for the new capacity of the table.
         """
