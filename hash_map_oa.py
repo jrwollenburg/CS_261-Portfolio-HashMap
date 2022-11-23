@@ -3,8 +3,8 @@
 # Course: CS261 - Data Structures
 # Assignment: Assignment 6: HashMap (Portfolio Assignment)
 # Due Date: 12/2/2022
-# Description: Python implementation of an open addressing hashmap with quadratic probing. Hash functions
-#              are found in a6_include.py.
+# Description: Python implementation of an open addressing hash map with quadratic probing. Hash functions
+#              are found in a6_include.py. Includes an iterator/next method for the hash map.
 
 from a6_include import (DynamicArray, DynamicArrayException, HashEntry,
                         hash_function_1, hash_function_2)
