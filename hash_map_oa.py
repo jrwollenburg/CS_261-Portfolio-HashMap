@@ -88,15 +88,34 @@ class HashMap:
 
     def put(self, key: str, value: object) -> None:
         """
-        TODO: Write this implementation - add duplicate key handling
+        Adds a key/value pair into the hash map. If a key already exists in the hash map, just the value is updated.
+        Resizes the hash map if the load factor is >= 0.5.
+
+        :param key: A string that is hashed and is the key for a value.
+        :param value: Any object that will represent the value in the key/value pair.
         """
         if self.table_load() >= 0.5:
             self.resize_table(self._capacity * 2)
-
+        # add key/value if index is empty
         index = self._hash_function(key) % self._capacity
         if self._buckets[index] is None or self._buckets[index].is_tombstone:
             self._buckets[index] = HashEntry(key, value)
             self._size += 1
+        # if just updating a key/value
+        elif self.contains_key(key):
+            if self._buckets[index].key == key:
+                self._buckets[index].value = value
+            # subsequent probes
+            else:
+                j = 1
+                # since key is known to exist in table, probe until it's found
+                while True:
+                    index = (self._hash_function(key) + j ** 2) % self._capacity
+                    if self._buckets[index].key == key:
+                        self._buckets[index].value = value
+                        return
+                    j += 1
+        # when the index is already occupied
         else:
             j = 1
             while self._buckets[index] is not None:
@@ -130,7 +149,7 @@ class HashMap:
 
         :param new_capacity: An integer for the new capacity of the table.
         """
-        if new_capacity < self._capacity:
+        if new_capacity < self._size:
             return
         # save original map and capacity
         original_map = DynamicArray()
@@ -190,6 +209,8 @@ class HashMap:
             return False
         # First possible index matches
         elif self._buckets[index].key == key:
+            if self._buckets[index].is_tombstone is True:
+                return False
             return True
         # Index is not none, check next w/ quadratic probing
         else:
@@ -198,6 +219,8 @@ class HashMap:
             while self._buckets[index] is not None:
                 index = (self._hash_function(key) + j**2) % self._capacity
                 if self._buckets[index] and self._buckets[index].key == key:
+                    if self._buckets[index].is_tombstone is True:
+                        return False
                     return True
                 j += 1
         return False
@@ -212,6 +235,7 @@ class HashMap:
         if self.contains_key(key):
             if self._buckets[index].key == key:
                 self._buckets[index].is_tombstone = True
+            self._size -= 1
 
     def clear(self) -> None:
         """
@@ -323,7 +347,7 @@ if __name__ == "__main__":
     print(m.get_size(), m.get_capacity(), m.get('key1'), m.contains_key('key1'))
     m.resize_table(30)
     print(m.get_size(), m.get_capacity(), m.get('key1'), m.contains_key('key1'))
-    '''
+
     print("\nPDF - resize example 2")
     print("----------------------")
     m = HashMap(79, hash_function_2)
@@ -349,7 +373,7 @@ if __name__ == "__main__":
             # NOT inserted keys must be absent
             result &= not m.contains_key(str(key + 1))
         print(capacity, result, m.get_size(), m.get_capacity(), round(m.table_load(), 2))
-    '''
+
     print("\nPDF - get example 1")
     print("-------------------")
     m = HashMap(31, hash_function_1)
