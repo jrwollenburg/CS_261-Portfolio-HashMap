@@ -235,6 +235,15 @@ class HashMap:
         if self.contains_key(key):
             if self._buckets[index].key == key:
                 self._buckets[index].is_tombstone = True
+            else:
+                j = 1
+                # since key is known to exist in table, probe until it's found
+                while True:
+                    index = (self._hash_function(key) + j ** 2) % self._capacity
+                    if self._buckets[index].key == key:
+                        self._buckets[index].is_tombstone = True
+                        return
+                    j += 1
             self._size -= 1
 
     def clear(self) -> None:
