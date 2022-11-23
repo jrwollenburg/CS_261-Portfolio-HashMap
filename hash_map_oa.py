@@ -242,6 +242,7 @@ class HashMap:
                     index = (self._hash_function(key) + j ** 2) % self._capacity
                     if self._buckets[index].key == key:
                         self._buckets[index].is_tombstone = True
+                        self._size -= 1
                         return
                     j += 1
             self._size -= 1
