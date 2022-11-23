@@ -241,8 +241,8 @@ class HashMap:
         """
         Clears the hash map of all values but does not alter the capacity. Replaces them all with None and resets size.
         """
-        for data in self:
-            data = None
+        for index in range(self._buckets.length()):
+            self._buckets[index] = None
         self._size = 0
 
     def get_keys_and_values(self) -> DynamicArray:
